@@ -25,10 +25,8 @@ def index(request):
     """
     Вьюхи не оптимизированы, потому что в последней задаче модуля Django ORM нужно их оптимизировать как раз на примере этого сайта.
     """
-    print("::::::::::", Post.objects.all().first())
     all_posts = Post.objects.prefetch_related('author')
     popular_posts = all_posts.annotate(likes_count=Count('likes')).order_by('-likes_count')[:3]
-    print("::::::::::", popular_posts[0].image.url)
     fresh_posts = all_posts.order_by('-published_at')[:5]
 
     context = {
